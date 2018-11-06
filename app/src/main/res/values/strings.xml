@@ -4,4 +4,5 @@
     <string name="textViewTodayOrder">오늘 주문 수 : 0</string>
     <string name="buttonNewOrder">새주문</string>
     <string name="textViewIng">주문처리중인 목록</string>
+    <string name="textViewTDtitle">오늘 주문 목록</string>
 </resources>
