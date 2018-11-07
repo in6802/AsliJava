@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbOpenHelper = MyDBOpenHelper.getInstance(this,"AsliJava.db",null,1);
+        dbOpenHelper = MyDBOpenHelper.getInstance(this,"aslijava.db",null,2);
 
         ((Button)findViewById(R.id.buttonNewOrder)).setOnClickListener(this);
         ((TextView)findViewById(R.id.textViewToday)).setText(date.format(new Date()));

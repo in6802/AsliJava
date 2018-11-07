@@ -18,6 +18,7 @@ public class MyDBOpenHelper extends SQLiteOpenHelper {
     public static MyDBOpenHelper getInstance(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         if(INSTANCE == null) {
             INSTANCE = new MyDBOpenHelper(context, name, factory, version);
+
             mDB = INSTANCE.getWritableDatabase();
         }
         return INSTANCE;
@@ -29,36 +30,30 @@ public class MyDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table menu_table " +
-            "(menu_id text primary key , " +
-            " menu_name text, " +
-            " menu_cost  text);");
-        db.execSQL("create table order_table " +
-                "(order_pkid text primary key , " +
+        //create table menu_table (menu_id text primary key, menu_name text, menu_cost text);
+        String query ="create table menu_table " +
+                "(menu_id text primary key, " +
+                "menu_name text, " +
+                "menu_cost text);";
+        db.execSQL(query);
+
+        //
+        query ="create table order_table " +
+                "(order_pkid text primary key," +
                 " order_id text, " +
                 " menu_name text, " +
                 " menu_count text, " +
                 " menu_cost text, " +
-                " closed_flag  text);");
+                " closed_flag  text);";
+        db.execSQL(query);
 }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+//        db = getWritableDatabase();
         db.execSQL("drop table menu_table;");
         db.execSQL("drop table order_table;");
-
-        db.execSQL("create table menu_table " +
-                "(menu_id text primary key , " +
-                " menu_name text, " +
-                " menu_cost  text);");
-        db.execSQL("create table order_table " +
-                "(order_pkid text primary key , " +
-                " order_id text, " +
-                " menu_name text, " +
-                " menu_count text, " +
-                " menu_cost text, " +
-                " closed_flag  text);");
-
+        onCreate(db);
     }
 
     //all
