@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AsliJava</string>
-    <string name="textViewTitle">AsliJava</string>
+    <string name="textViewMainTitle">AsliJava</string>
     <string name="textViewTodayOrder">오늘 주문 수 : 0</string>
     <string name="buttonNewOrder">새주문</string>
     <string name="textViewIng">주문처리중인 목록</string>
