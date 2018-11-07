@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.textViewTodayOrder:
                 intent = new Intent(this, TodayOrderActivity.class);
                 startActivityForResult(intent, 200);
+                String order_text = dbOpenHelper.readOrder();
+                ((TextView)findViewById(R.id.textViewResult)).setText(order_text);
                 break;
         }
     }

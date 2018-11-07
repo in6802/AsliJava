@@ -29,84 +29,80 @@ public class MyDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table awe_country " +
-                "(_id integer primary key autoincrement, " +
-                " country text, " +
-                " city text);");
-    }
+        db.execSQL("create table menu_table " +
+            "(menu_id text primary key , " +
+            " menu_name text, " +
+            " menu_cost  text);");
+        db.execSQL("create table order_table " +
+                "(order_pkid text primary key , " +
+                " order_id text, " +
+                " menu_name text, " +
+                " menu_count text, " +
+                " menu_cost text, " +
+                " closed_flag  text);");
+}
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.execSQL("create table temp_awe_country as select * from awe_country;");
-        db.execSQL("drop table awe_country;");
+        db.execSQL("drop table menu_table;");
+        db.execSQL("drop table order_table;");
 
-        db.execSQL("create table awe_country (pkid text primary key, country text, city text);");
-        db.execSQL("create table awe_country_visitedcount (fkid text);");
-//        db.execSQL("insert into awe_country (pkid, country, city) " +
-//                "select _id, country, city from temp_awe_country;");
+        db.execSQL("create table menu_table " +
+                "(menu_id text primary key , " +
+                " menu_name text, " +
+                " menu_cost  text);");
+        db.execSQL("create table order_table " +
+                "(order_pkid text primary key , " +
+                " order_id text, " +
+                " menu_name text, " +
+                " menu_count text, " +
+                " menu_cost text, " +
+                " closed_flag  text);");
+
     }
 
-    public void insertRecord(String country, String city) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String datetime = format.format(new Date());
+    //all
+    public String readOrder() {
 
-        mDB.execSQL("insert into awe_country values (?,?,?)", new Object[] {datetime, country, city});
-    }
-
-    public void deleteRecord(String country) {
-        String id = "";
-
-        Cursor cursor = mDB.rawQuery("select pkid from awe_country where country=?", new String[] {country});
-        if(cursor.moveToNext()) id = cursor.getString(0);
-
-        mDB.execSQL("delete from awe_country where pkid=?", new Object[] {id});
-    }
-
-    public void updateRecord(String country, String city) {
-        String id = "";
-        Cursor cursor = mDB.rawQuery("select pkid from awe_country where country=?", new String[] {country});
-        if(cursor.moveToNext()) id = cursor.getString(0);
-
-        mDB.execSQL("update awe_country set country=?, city=? where pkid=?", new Object[] {country, city, id});
-    }
-
-    public String read() {
         StringBuffer stringBuffer = new StringBuffer();
-        Cursor cursor = mDB.rawQuery("select * from awe_country order by pkid desc", null);
+        Cursor cursor = mDB.rawQuery("select * from order_table order by order_id desc", null);
         while (cursor.moveToNext()) {
             stringBuffer.append(cursor.getString(0)).append(": ");
             stringBuffer.append(cursor.getString(1)).append(" - ");
-            stringBuffer.append(cursor.getString(2)).append("\n");
+            stringBuffer.append(cursor.getString(2)).append(" - ");
+            stringBuffer.append(cursor.getString(3)).append(": ");
+            stringBuffer.append(cursor.getString(4)).append(" - ");
+            stringBuffer.append(cursor.getString(5)).append("\n");
         }
         return stringBuffer.toString();
     }
 
-    public String[] search(String pkid) {
-        String[] results = new String[4];
-//        String sql = "select pkid, country, city, ifnull(visitedcount,0) visitedcount\n" +
-//                "from (select * from awe_country where country=?) a \n" +
-//                "left join \n" +
-//                "(select fkid, count(*) visitedcount\n" +
-//                "from awe_country_visitedcount\n" +
-//                "group by fkid) b\n" +
-//                "on a.pkid = b.fkid;";
-        String sql = "select pkid, country, city, count(fkid) count\n" +
-                "        from awe_country\n" +
-                "        left join awe_country_visitedcount\n" +
-                "        on pkid=fkid and pkid =?";
+    public void insertOrder(String order_pkid, String order_id, String menu_name,
+                            String menu_count, String menu_cost, String closed_flag) {
 
-        Cursor cursor = mDB.rawQuery(sql, new String[] {pkid});
-        if (cursor.moveToNext()) {
-            results[0] = cursor.getString(0);
-            results[1] = cursor.getString(1);
-            results[2] = cursor.getString(2);
-            results[3] = cursor.getString(3);
-        }
-        return results;
+        mDB.execSQL("insert into order_table " +
+                        "values (?,?,?,?,?,?)",
+                new Object[] {order_pkid, order_id, menu_name, menu_count,menu_cost, closed_flag});
     }
 
-    public void insertCount(String pkid) {
-        mDB.execSQL("insert into awe_country_visitedcount values (?)", new Object[] {pkid});
+    public void insertMenu(String menu_id, String menu_name, String menu_cost) {
+        mDB.execSQL("insert into menu_table " +
+                        "values (?,?,?)",
+                new Object[] {menu_id, menu_name, menu_cost});
+    }
+    public void updateMenu(String menu_id, String menu_name, String menu_cost) {
+        String id = "";
+        Cursor cursor = mDB.rawQuery("select menu_name, menu_cost " +
+                "from menu_table where menu_id=?", new String[] {menu_id});
+        if(cursor.moveToNext()) {
+            menu_name = cursor.getString(0);
+            menu_cost = cursor.getString(1);
+        }
+
+        mDB.execSQL("update menu_table " +
+                        "set menu_name=?, menu_cost=? " +
+                        "where menu_id=?",
+                new Object[] {menu_name, menu_cost, menu_id});
     }
 }
 
