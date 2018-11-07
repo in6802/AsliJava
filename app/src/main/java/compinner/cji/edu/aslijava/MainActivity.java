@@ -14,7 +14,8 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     MyDBOpenHelper dbOpenHelper;
     SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd E");
-    SimpleDateFormat dateMs = new SimpleDateFormat("yyMMddHHss");
+    SimpleDateFormat dateTime = new SimpleDateFormat("yyMMddHHmmss");
+    SimpleDateFormat today = new SimpleDateFormat("yyMMdd");
 
 
     @Override
@@ -22,11 +23,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbOpenHelper = MyDBOpenHelper.getInstance(this,"aslijava.db",null,2);
+        dbOpenHelper = MyDBOpenHelper.getInstance(this,"aslijava.db",null,1);
 
         ((Button)findViewById(R.id.buttonNewOrder)).setOnClickListener(this);
         ((TextView)findViewById(R.id.textViewToday)).setText(date.format(new Date()));
-        ((TextView)findViewById(R.id.textViewTodayOrder)).setOnClickListener(this);
+
+        String countDay = today.format(new Date());
+        int orderCount = dbOpenHelper.countOrderDay(countDay);
+        ((TextView)findViewById(R.id.textViewTodayOrder)).setText("오늘 주문 수 : " + orderCount);
+        String order_text = dbOpenHelper.readOrder();
+        ((TextView)findViewById(R.id.textViewResult)).setText(order_text);
     }
 
     @Override
@@ -36,15 +42,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch(v.getId()) {
             case R.id.buttonNewOrder:
-                intent = new Intent(this, OrderActivity.class);
-                bundle.putString("orderID",dateMs.format(new Date()));
-                startActivityForResult(intent, 100);
+                String orderID = dateTime.format(new Date());
+                String menu_ID = "01";
+                String orderPkID = orderID + menu_ID;
+                dbOpenHelper.insertOrder(orderPkID, orderID, menu_ID,"아메리카노", 1,2000,0);
+                menu_ID = "02";
+                orderPkID = orderID + menu_ID;
+                dbOpenHelper.insertOrder(orderPkID, orderID, menu_ID,"까페라떼", 1,3500,0);
+
+                String order_text = dbOpenHelper.readOrderToday(today.format(new Date()));
+                ((TextView)findViewById(R.id.textViewResult)).setText(order_text);
+
+                String countDay = today.format(new Date());
+                int orderCount = dbOpenHelper.countOrderDay(countDay);
+                ((TextView)findViewById(R.id.textViewTodayOrder)).setText("오늘 주문 수 : " + orderCount);
+
+//                bundle.putString("orderID",dateTime.format(new Date()));
+//                intent = new Intent(this, OrderActivity.class);
+//                startActivityForResult(intent, 100);
                 break;
             case R.id.textViewTodayOrder:
-                intent = new Intent(this, TodayOrderActivity.class);
-                startActivityForResult(intent, 200);
-                String order_text = dbOpenHelper.readOrder();
-                ((TextView)findViewById(R.id.textViewResult)).setText(order_text);
+//                intent = new Intent(this, TodayOrderActivity.class);
+//                startActivityForResult(intent, 200);
                 break;
         }
     }
