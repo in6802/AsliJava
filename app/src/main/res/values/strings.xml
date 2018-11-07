@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">AsliJava</string>
-    <string name="textViewMainTitle">AsliJava</string>
+    <string name="textViewOrder">주문번호 :</string>
+    <string name="textViewOrderID" />
+    <string name="textViewMenu" />
+    <string name="textViewPrice" />
+    <string name="buttonIncrease">+</string>
+    <string name="buttonDecrease">-</string>
+    <string name="textViewCount" />
+    <string name="buttonClear">X</string>
+    <string name="buttonComplete">계산 완료</string>
+    <string name="buttonCancel">취소</string>
+    <string name="textViewTotalTitle">합계 :</string>
+    <string name="textViewTotal" />
+    <string name="textViewTitle">AsliJava</string>
     <string name="textViewTodayOrder">오늘 주문 수 : 0</string>
     <string name="buttonNewOrder">새주문</string>
     <string name="textViewIng">주문처리중인 목록</string>
