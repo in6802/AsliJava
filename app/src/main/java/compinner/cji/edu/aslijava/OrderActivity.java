@@ -52,4 +52,9 @@ public class OrderActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.order_list_item, MENU);
         menuListView.setAdapter(arrayAdapter);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+    }
 }
