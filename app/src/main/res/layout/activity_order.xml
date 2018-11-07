@@ -17,6 +17,7 @@
         android:textSize="30sp" />
 
     <LinearLayout
+        android:id="@+id/LayoutOrder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -42,11 +43,29 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/LayoutListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ListView
+            android:id="@+id/ListViewMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />//android:layout_alignParentStart="true"
+        //android:layout_alignParentTop="true"
+        />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/HardCodingList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -207,6 +226,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/LayoutTotal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -229,6 +249,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/LayoutButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
